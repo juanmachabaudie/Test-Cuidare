@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import Login from "./Pages/login";
+import Login from "./Pages/Login";
 import Blog from "./Pages/blog";
 import ProtectedRoutes from "./utils/ProtectedRoutes";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+  
+  //ESTE USE EFFECT SE HIZO CON EL OBJETIVO DE VERIFICAR SI EL USUARIO ESTA 
+  //IDENTIFICADO Y ASI PODER INGRESAR A LAS RUTAS
   useEffect(() => {
     const checkLoginStatus = () => {
       const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
@@ -17,14 +19,16 @@ function App() {
     checkLoginStatus();
   }, []);
 
+  //FUNCION QUE MANTIENE LA SESION
   const handleLogin = () => {
     setIsLoggedIn(true);
     setTimeout(() => {
       localStorage.removeItem('isLoggedIn');
       setIsLoggedIn(false);
-    }, 1300000); //300000 = 5 minutos en milisegundos
+    }, 300000);
   };
 
+  //FUNCION QUE BORRA EL LOCALSTORAGE
   const handleLogout = () => {
     localStorage.removeItem('isLoggedIn');
     setIsLoggedIn(false);

@@ -1,5 +1,7 @@
 import { AppBar, Box, Button, Container, Grid, Toolbar, Typography } from '@mui/material'
 
+
+/* NAVBAR SENCILLO CON UN TEXTO Y UN BOTON PARA CIERRE DE SESION */
 const Navbar = ({ onLogout }) => {
 
     const handleLogout = () => {

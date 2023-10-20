@@ -10,6 +10,8 @@ const initialInputValues = {
     note: "",
 };
 
+/* ESTE COMPONENTE SIRVE PARA CREAR UNA NOTA.  */
+//notesCall es para actualizar la llamada de blog.jsx
 const CreateNote = ({ notesCall }) => {
     const [inputValues, setInputValues] = useState(initialInputValues);
 
@@ -21,6 +23,7 @@ const CreateNote = ({ notesCall }) => {
         });
     };
 
+    //axios para crear
     const handleSubmit = async (e) => {
         e.preventDefault();
         await axios.post(`${URL_NOTES}/create`, inputValues)

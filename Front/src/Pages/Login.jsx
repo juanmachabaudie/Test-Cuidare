@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Box, Button, Container, Grid, Paper, TextField, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
+/* ESTE ES UN SENCILLO LOGIN QUE ALMACENA EN LOCALSTORAGE POR 5 MINUTOS LA SESION */
+
 const Login = ({ onLogin }) => {
     const [password, setPassword] = useState('');
     const navigate = useNavigate()

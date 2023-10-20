@@ -1,18 +1,17 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { URL_NOTES } from "../constants";
-import { Container, Typography } from "@mui/material";
-import Grid from "@mui/material/Unstable_Grid2";
+import { Box, Container, Typography, styled } from "@mui/material";
 import Navbar from "../components/Navbar";
 import Note from "../components/Note";
 import CreateNote from "../components/CreateNote";
 
-
-
-
+/* ESTE COMPONENTE ES PARA RENDERIZAR LAS NOTAS Y EL CUADRO DE CREACION */
+//onLogout es para cerrar sesion y borrar el localStorage.
 const Blog = ({ onLogout }) => {
     const [notes, setNotes] = useState([]);
 
+    //Llamada al back de las notas
     const notesCall = async () => {
         const call = await axios.get(URL_NOTES);
         const data = call.data.notes;
@@ -21,36 +20,37 @@ const Blog = ({ onLogout }) => {
     };
 
     useEffect(() => {
+        //Puse el notesCall para hacer el llamado y rerenderizar la pagina.
         notesCall();
     }, [])
 
-    const handleDelete = async (id) => {
-        await axios.delete(`${URL_NOTES}/${id}`)
-        notesCall();
-    }
+    const StyledDiv = styled(Box)(({ theme }) => ({
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr 1fr",
+        gridGap: theme.spacing(2),
+    }))
 
     return (
         <>
             <Navbar onLogout={onLogout} />
             <Container maxWidth="lg">
-                <Grid container sx={{ mt: "1em" }} spacing={3} >
-                    <Grid item xs={12} sx={{ textAlign: "center" }}>
+                <StyledDiv component="div" >
+                    <Box component="div" sx={{ display: "grid", gridColumn: "1/4", gridTemplateRows: "1fr 1fr", textAlign: "center" }}>
                         <Typography variant="h2">Bienvenido a tu Blog!</Typography>
                         <Typography variant="body2">Aquí podras realizar tus notas</Typography>
-                    </Grid>
-                    <Grid item xsOffset={4} xs={4}>
-                        <CreateNote notesCall={notesCall}/>
-                    </Grid>
-                    <Grid item container display="flex" justifyContent="space-between" xs={12}>
-                        {
-                            notes.map((note, i) => (
-                                <Grid item xs={4} key={i}>
-                                    <Note key={i} data={note} handleDelete={handleDelete} />
-                                </Grid>
-                            ))
-                        }
-                    </Grid>
-                </Grid>
+                    </Box>
+                    <Box component="div" sx={{ display: "grid", gridColumn: "2/3" }}>
+                        <CreateNote notesCall={notesCall} />
+                    </Box>
+                    {
+                        //El siguiente map lo que hace el mostrar las cartas a los costados segun su index par o inpar.
+                        notes.map((note, i) => (
+                            <Box key={i} component="div" sx={{ gridColumn: i % 2 === 0 ? "1/2" : "3/4", margin: "auto" }}>
+                                <Note data={note} notesCall={notesCall} />
+                            </Box>
+                        ))
+                    }
+                </StyledDiv>
             </Container>
         </>
     );
