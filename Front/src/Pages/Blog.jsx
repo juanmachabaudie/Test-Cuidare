@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { URL_NOTES } from "../constants";
-import { Box, Container, Typography, styled } from "@mui/material";
+import { Box, Container, Typography, keyframes, styled } from "@mui/material";
 import Navbar from "../components/Navbar";
 import Note from "../components/Note";
 import CreateNote from "../components/CreateNote";
@@ -30,13 +30,33 @@ const Blog = ({ onLogout }) => {
         gridGap: theme.spacing(2),
     }))
 
+    const StyledTypography = styled(Typography)`
+    animation: typing 2.5s steps(14), transparent 0.5s step-end infinite alternate;
+    width:40vw;
+    white-space:nowrap;
+    overflow:hidden;
+    border-right: 3px solid #ffffff;
+    
+    @keyframes typing {
+        from {
+            width: 0px;
+        }
+    };
+
+    @keyframes transparent{
+        50%{
+            border-color: transparent
+        }
+    }
+    `;
+
     return (
         <>
             <Navbar onLogout={onLogout} />
             <Container maxWidth="lg">
                 <StyledDiv component="div" >
-                    <Box component="div" sx={{ display: "grid", gridColumn: "1/4", gridTemplateRows: "1fr 1fr", textAlign: "center" }}>
-                        <Typography variant="h2">Bienvenido a tu Blog!</Typography>
+                    <Box component="div" sx={{ display: "grid", gridColumn: "1/4", gridTemplateRows: "1fr 1fr", placeItems:"center" }}>
+                        <StyledTypography variant="h2">Bienvenido a tu Blog!</StyledTypography>
                         <Typography variant="body2">Aquí podras realizar tus notas</Typography>
                     </Box>
                     <Box component="div" sx={{ display: "grid", gridColumn: "2/3" }}>
@@ -45,7 +65,7 @@ const Blog = ({ onLogout }) => {
                     {
                         //El siguiente map lo que hace el mostrar las cartas a los costados segun su index par o inpar.
                         notes.map((note, i) => (
-                            <Box key={i} component="div" sx={{ gridColumn: i % 2 === 0 ? "1/2" : "3/4", margin: "auto" }}>
+                            <Box key={i} component="div" className="animate__animated animate__fadeIn" sx={{ gridColumn: i % 2 === 0 ? "1/2" : "3/4", margin: "auto" }}>
                                 <Note data={note} notesCall={notesCall} />
                             </Box>
                         ))

@@ -38,7 +38,7 @@ const Note = ({ data, notesCall }) => {
             <Stack direction="column" spacing={2}>
                 <CardMedia
                     component="img"
-                    height={200}
+                    width="100%"
                     image={data.image}
                 />
                 <CardContent sx={{ backgroundColor: theme.palette.primary.main, borderRadius: "15px" }}>
